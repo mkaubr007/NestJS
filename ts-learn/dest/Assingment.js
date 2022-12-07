@@ -65,6 +65,7 @@
 //     }
 //     return array;
 // }
+//* Assingment
 // * PVR ticketing system
 //* make a program which takes object of People and then
 //* assign ticket to those People with ticket class and save their
@@ -97,55 +98,52 @@
 // let account = new People(1, "Manish", 100);
 // console.log(account);
 // account.generateRandomSeatNo();
-// Store
+//* Assingment
+//* Store
 // * A super class that is a 'Product',Food item, utensils, books
 // * they have a price and have transaction function -UPI or Case
 // *My Solution
-class Product {
-    constructor(name, price) {
-        this.name = name;
-        this.price = price;
-    }
-}
-class Food extends Product {
-    constructor(name, price, qty) {
-        super(name, price);
-        this.name = name;
-        this.price = price;
-        this.qty = qty;
-    }
-    makeTransaction(tracType) {
-        console.log(`${this.qty} ${this.name} purchase using ${tracType}`);
-    }
-}
-class Utensils extends Product {
-    constructor(name, price, utMaterial) {
-        super(name, price);
-        this.name = name;
-        this.price = price;
-        this.utMaterial = utMaterial;
-    }
-    makeTransaction(tracType) {
-        console.log(`${this.utMaterial} ${this.name} purchase using ${tracType}`);
-    }
-}
-class Books extends Product {
-    constructor(name, price, booktype) {
-        super(name, price);
-        this.name = name;
-        this.price = price;
-        this.booktype = booktype;
-    }
-    makeTransaction(tracType) {
-        console.log(`${this.booktype} ${this.name} purchase using ${tracType}`);
-    }
-}
-let mango = new Food("Banana", 10, 20);
-console.log(mango);
-let cup = new Utensils("Cup", 45, "Clay");
-console.log(cup);
-let book = new Books("Marvel", 95, "story");
-console.log(book);
+// class Product {
+//   constructor(public name: string, public price: number) {}
+// }
+// class Food extends Product {
+//   constructor(public name: string, public price: number, public qty: number) {
+//     super(name, price);
+//   }
+//   makeTransaction(tracType: string | number) {
+//     console.log(`${this.qty} ${this.name} purchase using ${tracType}`);
+//   }
+// }
+// class Utensils extends Product {
+//   constructor(
+//     public name: string,
+//     public price: number,
+//     public utMaterial: string
+//   ) {
+//     super(name, price);
+//   }
+//   makeTransaction(tracType: string | number) {
+//     console.log(`${this.utMaterial} ${this.name} purchase using ${tracType}`);
+//   }
+// }
+// class Books extends Product {
+//   constructor(
+//     public name: string,
+//     public price: number,
+//     public booktype: string
+//   ) {
+//     super(name, price);
+//   }
+//   makeTransaction(tracType: string | number) {
+//     console.log(`${this.booktype} ${this.name} purchase using ${tracType}`);
+//   }
+// }
+// let mango = new Food("Banana", 10,20);
+// console.log(mango);
+// let cup = new Utensils("Cup",45,"Clay");
+// console.log(cup);
+// let book = new  Books("Marvel",95,"story")
+// console.log(book);
 //* Assingment
 // *Define a class called Logger that takes
 //* the name of title in its constructor and provide a
