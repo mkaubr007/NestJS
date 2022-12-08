@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
+import { Store } from '../store/store.entity';
 import { CreateProductRequest } from './create-product.dto';
 import { Product } from './product.entity';
 
@@ -10,15 +11,24 @@ export class ProductService {
     @InjectRepository(Product) private productServeice: Repository<Product>,
   ) {}
 
-  async createProduct(store: CreateProductRequest): Promise<Product> {
-    return await this.productServeice.save({
-      name: store.name,
-      description: store.description,
+  async createProduct(
+    product: CreateProductRequest,
+    store: Store,
+  ): Promise<Product> {
+    const newProd = await this.productServeice.save({
+      name: product.name,
+      description: product.description,
+      price: product.price,
     });
+    store.products = [...store.products, newProd];
+    await store.save();
+    return newProd;
   }
 
   getProductById(id: number): Promise<Product> {
-    return this.productServeice.findOne({ where: { id: id } });
+    return this.productServeice.findOne({
+      where: { id: id },
+    });
   }
 
   getProductByName(name: string): Promise<Product[]> {

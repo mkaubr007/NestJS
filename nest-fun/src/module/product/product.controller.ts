@@ -8,16 +8,21 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { StoreService } from '../store/store.service';
 import { CreateProductRequest } from './create-product.dto';
 import { ProductService } from './product.service';
 @Controller('product')
 export class ProductController {
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private stotreService: StoreService,
+  ) {}
 
   @Post()
   @UsePipes(ValidationPipe)
-  async createProduct(@Body() storeInfo: CreateProductRequest) {
-    return await this.productService.createProduct(storeInfo);
+  async createProduct(@Body() product: CreateProductRequest) {
+    const store = await this.stotreService.geStoreById(product.storeId);
+    return await this.productService.createProduct(product, store);
   }
 
   @Get(':id')

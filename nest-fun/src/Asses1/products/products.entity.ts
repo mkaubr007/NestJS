@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('product')
+@Entity('products')
 export class Products extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: 'This is unique to product' })
   id: number;
@@ -25,4 +25,7 @@ export class Products extends BaseEntity {
 
   @Column({ type: 'int', default: 0 })
   quantity: number;
+
+  @Column({ type: 'boolean', default: true })
+  returnable: boolean;
 }

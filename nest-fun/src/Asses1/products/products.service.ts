@@ -32,10 +32,12 @@ export class ProductsService {
     return products;
   }
 
-  async createProduct(store: CreateProductsRequest): Promise<Products> {
+  async createProduct(product: CreateProductsRequest): Promise<Products> {
     return await this.productServeice.save({
-      name: store.name,
-      description: store.description,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      category: product.category,
     });
   }
 
@@ -43,10 +45,10 @@ export class ProductsService {
     return this.productServeice.findOne({ where: { id: id } });
   }
 
-  getProductByName(name: string): Promise<Products[]> {
-    console.log('hello');
-
-    return this.productServeice.find({ where: { name: Like(`%${name}%`) } });
+  getProductByName(category: string): Promise<Products[]> {
+    return this.productServeice.find({
+      where: { name: Like(`%${category}%`) },
+    });
   }
 
   getAllProduct(): Promise<Products[]> {
@@ -66,18 +68,50 @@ export class ProductsService {
   }
 
   async purchaseProduct(id: number, TotalPrize: number, quantity: number) {
+    console.log('quantity-----', id, TotalPrize, quantity);
     const result = await this.productServeice.findOne({ where: { id: id } });
-
     if (result.quantity < quantity) {
-      return { msg: 'You may buying out quantity product' };
+      return { msg: 'u may buying out quantity product' };
     } else {
       const price = result.price * quantity;
 
       if (price > TotalPrize) {
-        return { msg: 'You have insufficient amount to buy this product' };
-      } else if (price === TotalPrize && price < TotalPrize) {
-        result.quantity -= quantity;
+        return { msg: 'u have insufficient amount to buy this product' };
+      } else if (price <= TotalPrize) {
+        result.quantity = result.quantity - 1;
+
+        if (result.quantity === 0) {
+          return await this.productServeice.update(
+            { id: id },
+            { quantity: 0, onSale: false },
+          );
+        }
+
+        return await this.productServeice.update(
+          { id: id },
+          { quantity: result.quantity },
+        );
       }
     }
+
+    return result;
+  }
+
+  async returnProduct(id: number, name: string) {
+    const result = await this.productServeice.findOne({
+      where: { id: id },
+    });
+
+    if (result.returnable === true) {
+      this.productServeice.update(
+        { name: name },
+        {
+          quantity: result.quantity + 1,
+          price: (result.price * 90) / 100,
+        },
+      );
+
+      return `${result.price} is refund to customer`;
+    } else return `${name} has no return policy`;
   }
 }

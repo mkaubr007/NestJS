@@ -1,4 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Manager } from '../manager/entities/manager.entity';
+import { Product } from '../product/product.entity';
 
 @Entity('store')
 export class Store extends BaseEntity {
@@ -16,4 +25,10 @@ export class Store extends BaseEntity {
 
   @Column({ type: 'boolean', default: 1 })
   isActive: boolean;
+
+  @OneToMany(() => Product, (product) => product.store)
+  products: Product[];
+
+  @ManyToOne(() => Manager, (manager) => manager.store)
+  manager: Manager;
 }

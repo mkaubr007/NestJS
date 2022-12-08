@@ -7,16 +7,21 @@ import {
   Get,
   Param,
 } from '@nestjs/common';
+import { ManagerService } from '../manager/manager.service';
 import { CreateStoreRequest } from './create-store.dto';
 import { StoreService } from './store.service';
 @Controller('store')
 export class StoreController {
-  constructor(private storeService: StoreService) {}
+  constructor(
+    private storeService: StoreService,
+    private managerService: ManagerService,
+  ) {}
 
   @Post()
   @UsePipes(ValidationPipe)
-  async createStore(@Body() storeInfo: CreateStoreRequest) {
-    return await this.storeService.createStore(storeInfo);
+  async createStore(@Body() store: CreateStoreRequest) {
+    const manager = await this.managerService.getManagerById(store.managerId);
+    return await this.storeService.createStore(store, manager);
   }
 
   @Get(':id')
