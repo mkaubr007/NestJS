@@ -8,14 +8,18 @@ import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { ProductModule } from './module/product/product.module';
 import { ConfigModule } from '@nestjs/config';
 import { ManagerModule } from './module/manager/manager.module';
+import { typeOrmConfig } from 'db/data-source';
+import { DeliveryModule } from './module/delivery/delivery.module';
 @Module({
   imports: [
     StoreModule,
     ProductModule,
     ProductsModule,
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    TypeOrmModule.forRoot(typeOrmConfig),
+    //TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     ManagerModule,
+    DeliveryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

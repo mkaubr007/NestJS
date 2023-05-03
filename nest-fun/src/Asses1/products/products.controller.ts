@@ -43,7 +43,7 @@ export class ProductsController {
     return await this.productService.getProductById(id);
   }
 
-  @Get(':category')
+  @Get(':getByCategory/:category')
   async getProductByName(@Param('name') category: string) {
     return await this.productService.getProductByName(category);
   }

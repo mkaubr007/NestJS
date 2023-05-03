@@ -112,6 +112,6 @@ export class ProductsService {
       );
 
       return `${result.price} is refund to customer`;
-    } else return `${name} has no return policy`;
+    } else return `${name} has no return policy for this product`;
   }
 }
